@@ -1,0 +1,8 @@
+chromedriver
+*.yaml
+*.log
+*.idea
+*/__pycache__/
+/__pycache__
+config_private.py
+config_test.py
