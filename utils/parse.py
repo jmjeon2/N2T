@@ -46,7 +46,7 @@ def get_notion_html(html_fp,
         soup = html_fp
     else:
         with open(html_fp) as fp:
-            soup = BeautifulSoup(fp, 'html.parser')
+            soup = BeautifulSoup(fp, 'lxml')
 
     # 기존 head 정보(meta, title, style) 제거
     soup.find('meta').extract()
@@ -109,11 +109,11 @@ def get_notion_html(html_fp,
         f"""<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/styles/{code_theme}.min.css">
                 <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.2/highlight.min.js"></script>
                 <script>hljs.initHighlightingOnLoad();</script>""",
-        'html.parser')
+        'lxml')
     body.insert(0, code_css)
 
     # N2T 워터마크 추가
-    watermark = BeautifulSoup('<p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'html.parser')
+    watermark = BeautifulSoup('<p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'lxml')
     page_body_tag.append(watermark)
 
     if is_save:
