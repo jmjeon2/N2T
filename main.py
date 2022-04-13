@@ -147,7 +147,7 @@ class Notion2Tistory:
 
 
 if __name__ == '__main__':
-    from config_test import cfg
+    from config import cfg
 
     # create gmail client if exists
     if cfg.MAIL.ID:
