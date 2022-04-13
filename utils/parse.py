@@ -112,6 +112,10 @@ def get_notion_html(html_fp,
         'html.parser')
     body.insert(0, code_css)
 
+    # N2T 워터마크 추가
+    watermark = BeautifulSoup('<p class="">Uploaded by <mark class="highlight-orange"><a href="https://github.com/jmjeon94/N2T">N2T</a></mark></p>', 'html.parser')
+    page_body_tag.append(watermark)
+
     if is_save:
         # html 파일로 재 저장
         save_fp = html_fp.replace('.html', '_output.html')
