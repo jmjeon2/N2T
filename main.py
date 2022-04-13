@@ -8,7 +8,8 @@ from utils.parse import *
 from clients.GmailClient import *
 from datetime import datetime
 import sys, os
-
+import warnings
+warnings.filterwarnings('ignore')
 
 class Notion2Tistory:
     def __init__(self, cfg, sleep_time=10, selenium_debug=False):
@@ -52,6 +53,9 @@ class Notion2Tistory:
                                       cfg.TISTORY.CLIENT_ID,
                                       cfg.TISTORY.REDIRECT_URI,
                                       cfg.TISTORY.BLOG_NAME)
+
+        # selenium client 종료
+        self.s_client.quit()
 
     def posts(self):
         for i, page in enumerate(self.pages):
@@ -141,23 +145,13 @@ class Notion2Tistory:
         page[0].set_property(cfg.NOTION.COLUMN.URL, BeautifulSoup(resp_post.text, 'lxml').find('url').text)
 
 
-    def close(self):
-        self.s_client.quit()
-        print('[완료] 프로그램 종료.')
-
-
 if __name__ == '__main__':
     from config import cfg
 
-    # create gmail client if exists
-    if cfg.MAIL.ID:
-        gmail_client = GMailClient(cfg.MAIL.ID, cfg.MAIL.KEY)
-
-    # create Notion2Tistory client
-    client = Notion2Tistory(cfg, sleep_time=5, selenium_debug=False)
-
     # post
     try:
+        # create Notion2Tistory client
+        client = Notion2Tistory(cfg, sleep_time=5, selenium_debug=False)
         client.posts()
         title, content = get_mail_content_from_pages(client.pages)
     except Exception as e:
@@ -167,7 +161,13 @@ if __name__ == '__main__':
 
     # send alert mail
     if cfg.MAIL.ID:
-        gmail_client.send_mail(cfg.MAIL.ID, title, content)
-        gmail_client.close()
+        gmail_client = GMailClient(cfg.MAIL.ID, cfg.MAIL.KEY)
+        try:
+            gmail_client.send_mail(cfg.MAIL.ID, title, content)
+            print('[진행중] 메일 전송 완료.')
+        except Exception as e:
+            print(e)
+        finally:
+            gmail_client.close()
 
-    client.close()
+    print('[완료] 프로그램 종료.')
