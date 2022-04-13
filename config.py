@@ -2,8 +2,8 @@ from utils.dotdict import dotdict
 
 cfg = dotdict(
     TISTORY=dotdict(
-        ID='',
-        PW='',
+        ID='kakao email',
+        PW='kakao password',
         BLOG_NAME='',
         SECRET_KEY='',
         CLIENT_ID='',
@@ -13,23 +13,22 @@ cfg = dotdict(
     NOTION=dotdict(
         TOKEN_V2='',
         TABLE_PAGE_URL='',
-        DOWNLOAD_DIR='',
-        CODE_BLOCK_THEME='',
+        DOWNLOAD_DIR='~/.n2t',
+        CODE_BLOCK_THEME='atom-one-dark',
 
         COLUMN=dotdict(
-            TITLE='',
-            CATEGORY='',
-            TAG='',
-            STATUS='',
-            URL=''
+            TITLE='제목',
+            CATEGORY='카테고리',
+            TAG='태그',
+            STATUS='상태',
+            URL='링크'
         ),
 
         POST=dotdict(
-            UPLOAD_VALUE='',
-            MODIFY_VALUE='',
-            COMPLETE_VALUE='',
+            UPLOAD_VALUE='발행 요청',
+            MODIFY_VALUE='수정 요청',
+            COMPLETE_VALUE='발행 완료',
         ),
-
     ),
 
     MAIL=dotdict(
