@@ -90,7 +90,7 @@ class TistoryClient:
 
         for item in category_list:
             label = item.find('label').text
-            if label == target_name:
+            if label in target_name or label == target_name:
                 return item.find('id').text
 
         raise ValueError(f'[Error] 티스토리에 해당 카테고리가 없습니다. [{target_name}]')
