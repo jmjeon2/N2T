@@ -9,7 +9,9 @@ from clients.GmailClient import *
 from datetime import datetime
 import sys, os
 import warnings
+
 warnings.filterwarnings('ignore')
+
 
 class Notion2Tistory:
     def __init__(self, cfg, sleep_time=10, selenium_debug=False):
@@ -59,7 +61,6 @@ class Notion2Tistory:
 
     def posts(self):
         for i, page in enumerate(self.pages):
-
             # download html page
             self.export_page(page)
             print(f'[진행중] {i + 1}번째 페이지 다운로드 완료...')
@@ -89,6 +90,11 @@ class Notion2Tistory:
 
         for i, figure_tag in enumerate(figure_tags):
             fp = figure_tag.img['src']
+
+            # 외부 url의 경우 skip
+            if fp.startswith('http'):
+                continue
+
             url, replacer = self.t_client.attach(fp)
 
             # replacer 를 이용 하는 건 deprecated (-1로 동작하지 않도록 함)
@@ -119,11 +125,9 @@ class Notion2Tistory:
         except:
             raise ValueError(f'[Error] 테이블의 컬럼명을 다시 확인해주세요.')
 
-        # get codeblock code type
-        code_langs = []
-        for block in page[0].children:
-            if isinstance(block, CodeBlock):
-                code_langs.append(block.language)
+        # get codeblock languages
+        code_blocks = get_target_blocks(page[0], target_block_type=CodeBlock)
+        code_langs = [code_block.language for code_block in code_blocks]
 
         # html 파일로부터 parsing
         content = get_notion_html(html_fp=filepath, code_languages=code_langs, code_theme=cfg.NOTION.CODE_BLOCK_THEME)
