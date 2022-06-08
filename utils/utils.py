@@ -1,4 +1,5 @@
 import os
+from collections import deque
 from glob import glob
 from shutil import rmtree
 import zipfile
@@ -25,7 +26,7 @@ def get_mail_content_from_pages(pages):
     # 메일 내용
     content = f'총 {len(pages)}개의 게시물이 업로드/수정 되었습니다.\n'
     for i, page in enumerate(pages):
-        content += f' {i+1}. ' + page[0].title + f' ({page[0].get_property("링크")})\n'
+        content += f' {i + 1}. ' + page[0].title + f' ({page[0].get_property("링크")})\n'
 
     return title, content
 
@@ -148,6 +149,21 @@ def align_paths(paths, pages):
     assert len(paths) == len(
         new_pages), f'[Error] Not matched number to align Pages with downloaded HTML{[len(paths)]}!={[len(new_pages)]}'
     return paths, new_pages
+
+
+def get_target_blocks(page, target_block_type):
+    target_blocks = []
+    q = deque(page.children)
+
+    while q:
+        block = q.popleft()
+        if isinstance(block, target_block_type):
+            target_blocks.append(block)
+
+        # add queue left if block has children
+        for b in block.children[::-1]:
+            q.appendleft(b)
+    return target_blocks
 
 
 if __name__ == '__main__':
