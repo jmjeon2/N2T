@@ -77,7 +77,7 @@ config.py 파일을 열고 각 항목에 본인에 맞게 값을 입력해줍니
 # config 파일 예시
 cfg = dotdict(
     TISTORY=dotdict(
-        ID='kakao email',
+        ID='kakao email' # 전화번호가 아닌 이메일 주소를 사용해야 합니다.
         PW='kakao password',
         BLOG_NAME='blog_name',
         SECRET_KEY='xxx',
