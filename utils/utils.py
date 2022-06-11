@@ -5,11 +5,12 @@ from shutil import rmtree
 import zipfile
 from bs4 import BeautifulSoup
 
-
-def get_mail_content_from_pages(pages):
+def get_mail_content_from_pages(pages, cfg):
     """pages 객체배열로부터 메일로 보낼 content 문자열 가져오기
     pages: 2차원 array [[page, post_id], ...]
     """
+    url_column = cfg.NOTION.COLUMN.URL
+
     if pages is None:
         title = '[노션 알림] Notion2Tistory 에러 발생'
         content = ''
@@ -26,7 +27,7 @@ def get_mail_content_from_pages(pages):
     # 메일 내용
     content = f'총 {len(pages)}개의 게시물이 업로드/수정 되었습니다.\n'
     for i, page in enumerate(pages):
-        content += f' {i + 1}. ' + page[0].title + f' ({page[0].get_property("링크")})\n'
+        content += f' {i + 1}. ' + page[0].title + f' ({page[0].get_property(url_column)})\n'
 
     return title, content
 
