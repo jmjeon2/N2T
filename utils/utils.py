@@ -36,8 +36,8 @@ def get_mail_content(page_info: List[Tuple[str, str]] = None):
 
         # 메일 내용
         mail_content = f'총 {len(page_info)}개의 게시물이 업로드/수정 되었습니다.\n'
-        for i, (page_title, url) in enumerate(page_info):
-            mail_content += f' {i + 1}. {page_title} ({url})\n'
+        for i, (page_title, page_url) in enumerate(page_info):
+            mail_content += f' {i + 1}. {page_title} ({page_url})\n'
 
         return mail_title, mail_content
 
