@@ -156,11 +156,19 @@ if __name__ == '__main__':
     try:
         # create Notion2Tistory client
         client = Notion2Tistory(cfg, sleep_time=5, selenium_debug=False)
+
+        # post pages
         client.posts()
-        title, content = get_mail_content_from_pages(client.pages)
+
+        # get mail info
+        posted_page = [(page[0].title, page[0].get_property(cfg.NOTION.COLUMN.URL))
+                       for page in client.pages]
+        title, content = get_mail_content(posted_page)
+
     except Exception as e:
         print(e)
-        title, _ = get_mail_content_from_pages(None)
+
+        title, _ = get_mail_content(None)
         content = str(e)
 
     # send alert mail

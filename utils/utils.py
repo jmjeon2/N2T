@@ -3,32 +3,43 @@ from collections import deque
 from glob import glob
 from shutil import rmtree
 import zipfile
+from typing import Tuple, List
+
 from bs4 import BeautifulSoup
 
 
-def get_mail_content_from_pages(pages):
-    """pages 객체배열로부터 메일로 보낼 content 문자열 가져오기
-    pages: 2차원 array [[page, post_id], ...]
+def get_mail_content(page_info: List[Tuple[str, str]] = None):
+    """post된 page 정보로부터 메일로 보낼 content 문자열 가져오기
+    Args:
+        page_info: 2차원 array [(page_title, post_url), ...]
+
+    Returns:
+        mail_title(str): 메일 제목
+        mail_content(str): 메일 내용
     """
-    if pages is None:
+
+    # Error 발생한 경우
+    if page_info is None:
         title = '[노션 알림] Notion2Tistory 에러 발생'
         content = ''
         return title, content
 
-    if len(pages) == 0:
+    # 업데이트 할 내용이 없는 경우
+    elif len(page_info) == 0:
         title = '[노션 알림] 업데이트 할 항목이 없습니다.'
         content = ''
         return title, content
 
-    # 메일 제목
-    title = f'[노션 알림] 총 {len(pages)}개의 게시물이 업로드/수정 되었습니다.'
+    else:
+        # 메일 제목
+        mail_title = f'[노션 알림] 총 {len(page_info)}개의 게시물이 업로드/수정 되었습니다.'
 
-    # 메일 내용
-    content = f'총 {len(pages)}개의 게시물이 업로드/수정 되었습니다.\n'
-    for i, page in enumerate(pages):
-        content += f' {i + 1}. ' + page[0].title + f' ({page[0].get_property("링크")})\n'
+        # 메일 내용
+        mail_content = f'총 {len(page_info)}개의 게시물이 업로드/수정 되었습니다.\n'
+        for i, (page_title, url) in enumerate(page_info):
+            mail_content += f' {i + 1}. {page_title} ({url})\n'
 
-    return title, content
+        return mail_title, mail_content
 
 
 def get_url_from_pages(pages):
