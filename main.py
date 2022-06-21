@@ -153,9 +153,7 @@ class Notion2Tistory:
 if __name__ == '__main__':
     from config import cfg
 
-    # post
     try:
-        raise ValueError('asdf')
         # create Notion2Tistory client
         client = Notion2Tistory(cfg, sleep_time=5, selenium_debug=False)
 
