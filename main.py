@@ -9,6 +9,7 @@ from clients.GmailClient import *
 from datetime import datetime
 import sys, os
 import warnings
+import traceback
 
 warnings.filterwarnings('ignore')
 
@@ -150,10 +151,11 @@ class Notion2Tistory:
 
 
 if __name__ == '__main__':
-    from config import cfg
+    from config_test import cfg
 
     # post
     try:
+        raise ValueError('asdf')
         # create Notion2Tistory client
         client = Notion2Tistory(cfg, sleep_time=5, selenium_debug=False)
 
@@ -166,10 +168,11 @@ if __name__ == '__main__':
         title, content = get_mail_content(posted_page)
 
     except Exception as e:
-        print(e)
+        error_msg = traceback.format_exc()
+        print(error_msg)
 
         title, _ = get_mail_content(None)
-        content = str(e)
+        content = str(error_msg)
 
     # send alert mail
     if cfg.MAIL.ID:
