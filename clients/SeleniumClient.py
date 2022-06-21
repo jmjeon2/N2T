@@ -5,6 +5,7 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 
+
 class SeleniumClient:
     def __init__(self, sleep_time=3, is_hide=True):
         """notion login까지 완료 된 후에 진행 """
@@ -14,9 +15,10 @@ class SeleniumClient:
 
         options = webdriver.ChromeOptions()
         if is_hide:
-            options.add_argument("headless") # 창 숨기기
+            options.add_argument("headless")  # 창 숨기기
             options.add_argument("no-sandbox")
-            options.add_argument("user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36") # for google 로그인 화면
+            options.add_argument(
+                "user-agent=Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/61.0.3163.100 Safari/537.36")  # for google 로그인 화면
 
         options.add_argument("window-size=1920,1080")  # for notion 로그인 버튼
 
@@ -31,15 +33,16 @@ class SeleniumClient:
         print('[진행중] Selenium으로 티스토리(카카오) 로그인중..')
 
         # 로그인창으로 이동 tistory로 redirection
-        self.driver.get('https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fis_popup%3Dfalse%26ka%3Dsdk%252F1.39.10%2520os%252Fjavascript%2520sdk_type%252Fjavascript%2520lang%252Fko-kr%2520device%252FMacIntel%2520origin%252Fhttps%25253A%25252F%25252Fwww.tistory.com%26auth_tran_id%3Dfazrebo4cehb8aef3eeb03fa312b81795386484f051kjmiil9v%26response_type%3Dcode%26state%3DaHR0cHM6Ly93d3cudGlzdG9yeS5jb20v%26redirect_uri%3Dhttps%253A%252F%252Fwww.tistory.com%252Fauth%252Fkakao%252Fredirect%26client_id%3Db8aef3eeb03fa312b81795386484f051')
+        self.driver.get(
+            'https://accounts.kakao.com/login?continue=https%3A%2F%2Fkauth.kakao.com%2Foauth%2Fauthorize%3Fis_popup%3Dfalse%26ka%3Dsdk%252F1.39.10%2520os%252Fjavascript%2520sdk_type%252Fjavascript%2520lang%252Fko-kr%2520device%252FMacIntel%2520origin%252Fhttps%25253A%25252F%25252Fwww.tistory.com%26auth_tran_id%3Dfazrebo4cehb8aef3eeb03fa312b81795386484f051kjmiil9v%26response_type%3Dcode%26state%3DaHR0cHM6Ly93d3cudGlzdG9yeS5jb20v%26redirect_uri%3Dhttps%253A%252F%252Fwww.tistory.com%252Fauth%252Fkakao%252Fredirect%26client_id%3Db8aef3eeb03fa312b81795386484f051')
         sleep(self.t)
 
         # 아이디 입력
         self.driver.find_element(By.XPATH, '//*[@id="id_email_2"]').send_keys(id)
-        sleep(self.t//2)
+        sleep(self.t // 2)
         # 비밀번호 입력
         self.driver.find_element(By.XPATH, '//*[@id="id_password_3"]').send_keys(pw)
-        sleep(self.t//2)
+        sleep(self.t // 2)
 
         # 로그인 버튼 클릭
         self.driver.find_element(By.XPATH, '//*[@id="login-form"]/fieldset/div[8]/button[1]').click()
