@@ -127,7 +127,10 @@ def get_html_path(download_dir='~/'):
     html_pages = pages_single + pages_including_image
 
     # 파일은 한개여야함
-    assert len(html_pages) == 1, f'[Error] 다운로드 폴더 경로를 비우고 다시 실행해주세요. Download Folder:[{download_dir}]'
+    if len(html_pages) > 1:
+        raise ValueError(f'[Error] 다운로드 폴더 경로를 비우고 다시 실행해주세요. Download Folder:[{download_dir}]')
+    if len(html_pages) == 0:
+        raise ValueError(f'[Error] 다운로드가 실패하였습니다. 경로를 다시 확인해주세요. Download Folder:[{download_dir}]')
 
     return html_pages[0]
 
