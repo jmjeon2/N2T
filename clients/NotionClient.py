@@ -16,7 +16,7 @@ class Notion:
             self.client = NotionClient(token_v2=token_v2)
             print('[진행중] Notion 로그인 완료')
         except:
-            raise ValueError('[Error] 올바르지 않은 token 값입니다. [{}]'.format(token_v2))
+            raise ValueError('[Error] notion token값이 올바르지 않습니다. 다시 확인 해 주세요. [{}]'.format(token_v2))
 
     def get_pages_readyToPost(self,
                               table_url: str,
