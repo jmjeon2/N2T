@@ -45,7 +45,7 @@ def get_notion_html(html_fp,
     if from_zip:
         soup = html_fp
     else:
-        with open(html_fp) as fp:
+        with open(html_fp, encoding='UTF-8') as fp:
             soup = BeautifulSoup(fp, 'lxml')
 
     # 기존 head 정보(meta, title, style) 제거
