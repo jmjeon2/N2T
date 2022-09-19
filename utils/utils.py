@@ -116,6 +116,7 @@ def get_html_path(download_dir='~/'):
         os.makedirs(zip_folder, exist_ok=True)
         # 압축 풀기
         zip.extractall(zip_folder)
+        zip.close()
         # zip 파일 제거
         os.remove(zip_fp)
 
