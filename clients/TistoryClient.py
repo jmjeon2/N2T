@@ -2,6 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 from utils.parse import decode_b64
 
+
 class TistoryClient:
     def __init__(self, authorize_code, secret_key, client_id, redirect_uri, blog_name, token=None):
         # get tistory token using authorize code
@@ -90,10 +91,11 @@ class TistoryClient:
 
         for item in category_list:
             label = item.find('label').text
-            if label == target_name:
+            if label.strip() == target_name.strip():
                 return item.find('id').text
 
-        raise ValueError(f'[Error] 티스토리에 해당 카테고리가 없습니다. target:[{target_name}], categories:{[item.find("label").text for item in category_list]}')
+        raise ValueError(
+            f'[Error] 티스토리에 해당 카테고리가 없습니다. target:[{target_name}], categories:{[item.find("label").text for item in category_list]}')
 
     def get_category_ids(self, output_type='xml'):
         """내 블로그에 있는 모든 카테고리 리스트 가져오기"""
