@@ -91,7 +91,7 @@ class TistoryClient:
 
         for item in category_list:
             label = item.find('label').text
-            if label.strip() == target_name.strip():
+            if label.strip() == target_name.replace('\b', '').strip():
                 return item.find('id').text
 
         raise ValueError(
