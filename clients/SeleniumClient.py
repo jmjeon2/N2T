@@ -38,14 +38,14 @@ class SeleniumClient:
         sleep(self.t)
 
         # 아이디 입력
-        self.driver.find_element(By.XPATH, '//*[@id="id_email_2"]').send_keys(id)
+        self.driver.find_element(By.XPATH, '//*[@id="input-loginKey"]').send_keys(id)
         sleep(self.t // 2)
         # 비밀번호 입력
-        self.driver.find_element(By.XPATH, '//*[@id="id_password_3"]').send_keys(pw)
+        self.driver.find_element(By.XPATH, '//*[@id="input-password"]').send_keys(pw)
         sleep(self.t // 2)
 
         # 로그인 버튼 클릭
-        self.driver.find_element(By.XPATH, '//*[@id="login-form"]/fieldset/div[8]/button[1]').click()
+        self.driver.find_element(By.XPATH, '//*[@id="mainContent"]/div/div/form/div[4]/button[1]').click()
         sleep(self.t)
         print('[진행중] Selenium으로 티스토리(카카오) 로그인 완료!')
 
