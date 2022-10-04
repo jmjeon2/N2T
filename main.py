@@ -47,7 +47,12 @@ class Notion2Tistory:
         self.s_client = SeleniumClient(sleep_time=sleep_time, is_hide=(not selenium_debug))
 
         # selenium으로 kakao(tistory) 로그인, authorize code 발급받기(for OAuth)
-        self.s_client.tistory_login(cfg.TISTORY.ID, cfg.TISTORY.PW)
+        try:
+            self.s_client.tistory_login(cfg.TISTORY.ID, cfg.TISTORY.PW)
+        except Exception as e:
+            print(e)
+            print('[오류] 카카오톡 로그인 실패')
+            sys.exit(1)
         authorize_code = self.s_client.get_tistory_authorize_code(cfg.TISTORY.CLIENT_ID, cfg.TISTORY.REDIRECT_URI)
 
         # 위에서 발급받은 code로 tistory 로그인(access_token 발급받기)
