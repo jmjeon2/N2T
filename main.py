@@ -141,7 +141,12 @@ class Notion2Tistory:
         print(f'\t[진행중] parsing 완료... ', end='')
 
         # 카테고리 id를 얻고, posting 요청
-        category_id = self.t_client.get_category_id_from_name(category_str)
+        # 카테고리 미입력시 None
+        if category_str: 
+            category_id = self.t_client.get_category_id_from_name(category_str)
+        else:
+            category_id = None
+
         resp_post = self.t_client.posting(title=title,
                                           content=content,
                                           visibility=3,
