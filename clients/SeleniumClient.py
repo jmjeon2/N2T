@@ -54,10 +54,10 @@ class SeleniumClient:
             # 환경마다 로그인 페이지가 다른 경우를 대비하여 다른 XPATH 지정
             print('[진행중] 카카오 로그인 재시도..')
 
-            self.driver.find_element(By.XPATH, '//*[@id="input-loginKey"]').send_keys(id)
+            self.driver.find_element(By.XPATH, '//*[@id="loginKey--1"]').send_keys(id)
             sleep(self.t // 2)
             # 비밀번호 입력
-            self.driver.find_element(By.XPATH, '//*[@id="input-password"]').send_keys(pw)
+            self.driver.find_element(By.XPATH, '//*[@id="password--2"]').send_keys(pw)
             sleep(self.t // 2)
 
             # 로그인 버튼 클릭
