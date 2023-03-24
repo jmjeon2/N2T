@@ -1,4 +1,7 @@
+import urllib
+
 from notion.client import NotionClient
+from clients.NotionClient import Notion
 import requests
 from tqdm import tqdm
 from time import sleep
@@ -6,7 +9,8 @@ from pathlib import Path
 import os
 
 NOTION_API_ROOT = "https://www.notion.so/api/v3"
-BLOCK_SIZE = 1024 # download 1KB
+BLOCK_SIZE = 1024  # download 1KB
+
 
 class NotionBackUpClient:
     def __init__(self, token, download_path='~/'):
@@ -34,7 +38,7 @@ class NotionBackUpClient:
                 "task": {
                     "eventName": "exportBlock",
                     "request": {
-                        "block":{
+                        "block": {
                             "id": page_id,
                             "spaceId": self.space_id,
                         },
@@ -58,8 +62,9 @@ class NotionBackUpClient:
             filter(lambda task_status: task_status["id"] == task_id, task_statuses)
         )[0]
 
-    def download_file(self, url, export_file):
-        with requests.get(url, stream=True, allow_redirects=True) as response:
+    def download_file(self, url, export_file, file_token):
+        cookies = {'file_token': file_token}
+        with requests.get(url, stream=True, allow_redirects=True, cookies=cookies) as response:
             total_size = int(response.headers.get("content-length", 0))
             tqdm_bar = tqdm(total=total_size, unit="iB", unit_scale=True)
             with export_file.open("wb") as export_file_handle:
@@ -68,7 +73,7 @@ class NotionBackUpClient:
                     export_file_handle.write(data)
             tqdm_bar.close()
 
-    def export(self, page_id, exportType):
+    def export(self, page_id, exportType, exportToken):
 
         task_id = self.launch_export_task(page_id=page_id, exportType=exportType)
 
@@ -86,24 +91,20 @@ class NotionBackUpClient:
 
         # download file
         export_link = task_status["status"]["exportURL"]
-        self.download_file(export_link, self.download_path.expanduser() / f'Export-{page_id}.zip')
+        save_fp = self.download_path.expanduser() / f'Export-{page_id}.zip'
+        self.download_file(export_link, save_fp, exportToken)
+        print(f'[진행중] Notion Page Export Complete in {save_fp}')
 
 
-if __name__=='__main__':
-
+if __name__ == '__main__':
     from config import cfg
 
     # notion client
-    client = NotionClient(token_v2=cfg.NOTION.TOKEN_V2)
+    n = Notion(notion_token=cfg.NOTION.TOKEN_V2)
 
     # space, page 가져오기
-    page = client.get_block('notion page url')
+    page = n.client.get_block('notion page url')
 
     # export & download
     ne = NotionBackUpClient(token=cfg.NOTION.TOKEN_V2, download_path='~/.n2t')
-    ne.export(page.id, exportType='html')
-
-
-
-
-
+    ne.export(page_id=page.id, exportType='html', exportToken=n.file_token)

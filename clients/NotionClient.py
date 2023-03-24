@@ -9,11 +9,9 @@ class Notion:
     def __init__(self, notion_token):
 
         # access notion
-        self.login_notion(notion_token)
-
-    def login_notion(self, token_v2):
         try:
-            self.client = NotionClient(token_v2=token_v2)
+            self.client = NotionClient(token_v2=notion_token)
+            self.file_token = self.client.session.cookies.get('file_token')
             print('[진행중] Notion 로그인 완료')
         except:
             raise ValueError('[Error] notion token값이 올바르지 않습니다. 다시 확인 해 주세요. [{}]'.format(token_v2))

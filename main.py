@@ -86,7 +86,7 @@ class Notion2Tistory:
 
     def export_page(self, page):
         page_id = page[0].id
-        self.export_client.export(page_id, 'html')
+        self.export_client.export(page_id, 'html', self.n_client.file_token)
 
     def translate_img_url(self, contents):
         """
@@ -142,7 +142,7 @@ class Notion2Tistory:
 
         # 카테고리 id를 얻고, posting 요청
         # 카테고리 미입력시 None
-        if category_str: 
+        if category_str:
             category_id = self.t_client.get_category_id_from_name(category_str)
         else:
             category_id = None
