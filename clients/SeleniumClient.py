@@ -23,7 +23,12 @@ class SeleniumClient:
         options.add_argument("window-size=1920,1080")  # for notion 로그인 버튼
 
         # web driver 시작
-        self.driver = webdriver.Chrome(ChromeDriverManager().install(), options=options)
+        try:
+            self.driver = webdriver.Chrome(
+                ChromeDriverManager().install(), options=options
+            )
+        except:
+            self.driver = webdriver.Chrome(options=options)
 
         print('[진행중] Selenium Chrome WebDriver 시작.. ')
         self.driver.implicitly_wait(self.t)
