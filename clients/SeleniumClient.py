@@ -108,7 +108,11 @@ class SeleniumClient:
         resp = self.driver.page_source
         soup = BeautifulSoup(resp, 'html.parser')
 
-        code = soup.script.text.split('code=')[1].split('&state')[0]
+        try:
+            code = soup.script.text.split('code=')[1].split('&state')[0]
+        except:
+            print(soup.prettify())
+            raise ValueError(f'[Error] Tistory 인증 코드 발급 실패. 위의 출력 메시지를 보고 로그인이 되어있는지 확인해주세요.')
 
         return code
 
