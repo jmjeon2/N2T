@@ -114,6 +114,7 @@ class Notion2Tistory:
                 figure_tag['style'] = "text-align: center;"  # 가운데 정렬
                 figure_tag.a['href'] = url
                 figure_tag.img['src'] = url
+                figure_tag.img['srcset'] = "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=" + url
 
         return contents
 
