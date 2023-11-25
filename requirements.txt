@@ -4,4 +4,4 @@ selenium
 webdriver_manager
 tqdm
 lxml
-git+https://github.com/wsykala/notion-py.git
+git+https://github.com/jamalex/notion-py.git
